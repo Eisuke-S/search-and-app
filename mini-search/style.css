@@ -71,9 +71,7 @@ button:hover {
   }
 
   button {
-    width: 100%; /* ボタンを幅いっぱいに */
-    border-radius: 30px; /* ボタンの角を丸くする */
-    margin-top: 20px;
+    display: none;
   }
 
   .input-box {
