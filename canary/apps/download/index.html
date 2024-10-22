@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://eisuke-s.github.io/search-and-app/favicon.ico" loading="lazy">
+    <meta name="description" content="様々なファイルやアプリをダウンロードできます">
+    <title>ファイルダウンロードページ</title>
+    <style>
+        /* フォントの設定（Appleのようなクリーンなフォント） */
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600&display=swap');
+
+        body {
+            font-family: 'SF Pro Display', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f7; /* Appleらしい明るい背景色 */
+            color: #1d1d1f; /* 高コントラストのテキスト色 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* 微妙なシャドウで浮き上がる効果 */
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #6e6e73;
+            margin-bottom: 40px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #0071e3; /* Appleの青いボタン */
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #005bb5; /* ホバー時の色 */
+        }
+
+        /* メディアクエリでモバイル対応 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            a {
+                padding: 12px 24px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>ファイルダウンロード</h1>
+        <p>参考ファイルをダウンロードするには、以下のボタンをクリックしてください。by英資</p>
+        <a href="files/半田市体育施設快適化条例.pptx" download>プレゼンテーション</a>
+    </div>
+
+</body>
+</html>

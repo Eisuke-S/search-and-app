@@ -1,0 +1,94 @@
+body {
+  background-color: #f7f7f7;
+  font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden; /* スクロールバーを非表示 */
+}
+
+.container {
+  display: flex;
+  flex-direction: column; /* 縦に並べる */
+  align-items: center; /* 中央揃え */
+  justify-content: center;
+}
+
+.input-box {
+  width: 80vw; /* 横幅を80%に設定 */
+  min-width: 60vw; /* 最小幅を60%に設定 */
+  max-width: 90%; /* 最大幅を90%に設定 */
+  padding: 15px;
+  border: 2px solid #ddd;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-size: 16px;
+  transition: all 0.3s ease;
+  resize: none; /* サイズ変更を無効化 */
+  overflow: hidden; /* スクロールを非表示 */
+}
+
+.input-box:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow: 0 8px 15px rgba(0, 122, 255, 0.2);
+  transform: scale(1.1); /* アニメーションで枠を大きくする（1.1倍に） */
+  transition: transform 0.3s ease, border-color 0.3s ease; /* アニメーションを追加 */
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent; /* 背景を透明に */
+  padding: 10px; /* パディングを調整 */
+  border-radius: 50%; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin-left: 3.5vw;
+  margin-bottom: 20px;
+  width: 50px; /* 幅を50pxに設定 */
+  height: 50px; /* 高さを50pxに設定 */
+  display: flex; /* 中央揃えのためにフレックスボックスを使用 */
+  align-items: center; /* 垂直方向中央揃え */
+  justify-content: center; /* 水平方向中央揃え */
+}
+
+button img {
+  width: 28px; /* 画像の幅を大きくする */
+  height: 28px; /* 画像の高さを大きくする */
+}
+
+button:hover {
+  transform: scale(1.1); /* ボタンをホバー時に1.1倍に */
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* モバイルサイズのスタイル */
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column; /* 縦に並べる */
+  }
+
+  button {
+    display: none;
+  }
+
+  .input-box {
+    width: 100%; /* テキストエリアを幅いっぱいに */
+  }
+}
+
+/* PC横向きのスタイル */
+@media (min-width: 601px) and (orientation: landscape) {
+  .container {
+    flex-direction: row; /* 横に並べる */
+    gap: 20px; /* 隙間を追加 */
+  }
+
+  .input-box {
+    width: 300px; /* 幅を固定 */
+  }
+}
