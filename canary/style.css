@@ -270,15 +270,14 @@ input:focus {
   position: fixed;
   bottom: 20px; /* 下から20px */
   left: 20px; /* 左から20px */
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
+  background-color: transparent;
   border-radius: 4px;
   text-decoration: none;
   font-size: 16px;
 }
-.fixed-link:hover {
-  background-color: #0056b3;
+.icon-menu {
+  height: 8vh;
+  width: 8vh;
 }
 #prv-div {
   position: fixed;
