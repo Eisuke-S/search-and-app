@@ -50,17 +50,7 @@ inputFields.forEach(inputField => {
 });
 
 
-document.getElementById("search-field").addEventListener("keydown", function(event) {
-  // エンターキーが押されたとき
-  if (event.key === "Enter") {
-      const query = this.value.trim(); // 入力値を取得し、余分な空白を削除
-      if (query) {
-          const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-          const newTab = window.open("about:blank", "_blank"); // about:blank で新しいタブを開く
-          newTab.location.href = googleUrl; // 新しいタブでGoogle検索結果を表示
-      }
-  }
-});
+
 
 document.getElementById("video-field").addEventListener("keydown", function(event) {
   // エンターキーが押されたとき
@@ -84,4 +74,31 @@ document.getElementById("translate-field").addEventListener("keydown", function(
           newTab.location.href = chatgptUrl; // 新しいタブでGoogle検索結果を表示
       }
   }
+});
+
+// DOMが完全に読み込まれてから実行
+document.addEventListener('DOMContentLoaded', function() {
+  // ページ読み込み時に選択された検索エンジンを復元
+  const savedSearchEngine = localStorage.getItem('searchEngine');
+  if (savedSearchEngine) {
+    // localStorageから取得したURLを選択肢に反映
+    document.getElementById('search-engine').value = savedSearchEngine;
+  }
+
+  // 検索エンジンが変更されたときにlocalStorageに保存
+  document.getElementById('search-engine').addEventListener('change', function() {
+    localStorage.setItem('searchEngine', this.value); // 変更された値を保存
+  });
+
+  // 検索フィールドでエンターキーが押されたときに検索を実行
+  document.getElementById("search-field").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      const query = this.value.trim(); // 入力値を取得し、余分な空白を削除
+      if (query) {
+        const searchEngineUrl = document.getElementById('search-engine').value; // 選択されている検索エンジンのURLを取得
+        const searchUrl = `${searchEngineUrl}${encodeURIComponent(query)}`; // 検索URLを作成
+        window.open(searchUrl, '_blank'); // 新しいタブで検索結果を表示
+      }
+    }
+  });
 });
