@@ -155,6 +155,7 @@ input:focus {
 }
  
 .modified-input {
+  animation: zoom 0.5s forwards;
   position: fixed;
   top: 50%;
   z-index: 4;
@@ -269,15 +270,14 @@ input:focus {
   position: fixed;
   bottom: 20px; /* 下から20px */
   left: 20px; /* 左から20px */
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
+  background-color: transparent;
   border-radius: 4px;
   text-decoration: none;
   font-size: 16px;
 }
-.fixed-link:hover {
-  background-color: #0056b3;
+.icon-menu {
+  height: 8vh;
+  width: 8vh;
 }
 #prv-div {
   position: fixed;
@@ -294,22 +294,10 @@ input:focus {
 }
 #prv-div >* {
   display: none;
+}
 
-}
-.prv-menu {
-  display: flex;
-  height: 10%;
-  align-items: center;
-}
-#prvurl {
-  position: relative;
-  transform: translate(-50%,0);
-  left: 50%;
-  width: 60%;
-  font-size: 20px;
-  margin-top: 20px;
-}
 #prvPage{
+  border-radius: 20px 20px 0 0;
   width: 100%;
   height: 90%;
   bottom: 0;
@@ -483,18 +471,41 @@ input:focus {
 }
 @keyframes up {
   from {
-      height: 5vh; /* 開始時の透明度 */
+      height: 5vh;
+      width: 60vw;
   }
   to {
-      height: 90vh; /* 終了時の透明度 */
+      height: 90vh; 
+      width: 80vw;
   }
 }
 @keyframes down {
   from {
-      height: 90vh; /* 開始時の透明度 */
+      height: 90vh; 
+      width: 80vw;
   }
   to {
-      height: 5vh; /* 終了時の透明度 */
+      height: 5vh; 
+      width: 60vw;
   }
 }
-
+@keyframes zoom {
+  from {
+    width: 40vw;
+    height: 6.25vw;
+  }
+  to {
+    width: 60vw;
+    height: 50vh;
+  }
+}
+@keyframes reduction {
+  from {
+    width: 60vw;
+    height: 50vh;
+  }
+  to {
+    width: 40vw;
+    height: 6.25vw;
+  }
+}
