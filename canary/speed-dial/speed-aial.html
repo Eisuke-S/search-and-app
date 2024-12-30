@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Dial Desktop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .desktop {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .dial {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: move;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .dial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .dial .title {
+            font-weight: bold;
+            margin-top: 10px;
+            word-break: break-word;
+        }
+
+        .dial .favicon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 10px;
+        }
+
+        .dial .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .dial:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .add-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #4285f4;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .add-button:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-buttons .cancel {
+            background: #ddd;
+        }
+
+        .modal-buttons .save {
+            background: #4285f4;
+            color: white;
+        }
+
+        .dial.dragging {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop" id="desktop"></div>
+    
+    <button class="add-button" id="addButton">+</button>
+
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <div class="form-group">
+                <label for="title">タイトル:</label>
+                <input type="text" id="title" required>
+            </div>
+            <div class="form-group">
+                <label for="url">URL:</label>
+                <input type="url" id="url" required>
+            </div>
+            <div class="modal-buttons">
+                <button class="cancel" id="cancelButton">キャンセル</button>
+                <button class="save" id="saveButton">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class SpeedDial {
+            constructor() {
+                this.desktop = document.getElementById('desktop');
+                this.addButton = document.getElementById('addButton');
+                this.modal = document.getElementById('addModal');
+                this.titleInput = document.getElementById('title');
+                this.urlInput = document.getElementById('url');
+                this.saveButton = document.getElementById('saveButton');
+                this.cancelButton = document.getElementById('cancelButton');
+                
+                this.dials = [];
+                this.draggedDial = null;
+
+                this.initializeEventListeners();
+                this.loadDials();
+            }
+
+            initializeEventListeners() {
+                this.addButton.addEventListener('click', () => this.showModal());
+                this.saveButton.addEventListener('click', () => this.saveDial());
+                this.cancelButton.addEventListener('click', () => this.hideModal());
+
+                // ドラッグ&ドロップのイベントリスナー
+                this.desktop.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    const draggingElement = document.querySelector('.dragging');
+                    if (!draggingElement) return;
+                    
+                    const closestDial = this.getClosestDial(e.clientX, e.clientY);
+                    if (closestDial) {
+                        const draggingIndex = Array.from(this.desktop.children).indexOf(draggingElement);
+                        const closestIndex = Array.from(this.desktop.children).indexOf(closestDial);
+                        
+                        if (draggingIndex < closestIndex) {
+                            closestDial.parentNode.insertBefore(draggingElement, closestDial.nextSibling);
+                        } else {
+                            closestDial.parentNode.insertBefore(draggingElement, closestDial);
+                        }
+                        this.updateDialPositions();
+                    }
+                });
+            }
+
+            getClosestDial(x, y) {
+                const dials = [...this.desktop.querySelectorAll('.dial:not(.dragging)')];
+                return dials.reduce((closest, dial) => {
+                    const box = dial.getBoundingClientRect();
+                    const offset = Math.sqrt(
+                        Math.pow(x - (box.left + box.width/2), 2) +
+                        Math.pow(y - (box.top + box.height/2), 2)
+                    );
+                    
+                    if (!closest || offset < closest.offset) {
+                        return { element: dial, offset };
+                    }
+                    return closest;
+                }, null)?.element;
+            }
+
+            showModal() {
+                this.modal.classList.add('active');
+                this.titleInput.value = '';
+                this.urlInput.value = '';
+            }
+
+            hideModal() {
+                this.modal.classList.remove('active');
+            }
+
+            async saveDial() {
+                const title = this.titleInput.value.trim();
+                const url = this.urlInput.value.trim();
+
+                if (!title || !url) return;
+
+                const dial = {
+                    id: Date.now().toString(),
+                    title,
+                    url,
+                    position: this.dials.length
+                };
+
+                this.dials.push(dial);
+                await this.saveDialsToStorage();
+                this.renderDial(dial);
+                this.hideModal();
+            }
+
+            createDialElement(dial) {
+                const element = document.createElement('div');
+                element.className = 'dial';
+                element.draggable = true;
+                element.dataset.id = dial.id;
+
+                element.addEventListener('dragstart', () => {
+                    element.classList.add('dragging');
+                });
+
+                element.addEventListener('dragend', () => {
+                    element.classList.remove('dragging');
+                });
+
+                element.innerHTML = `
+                    <img class="favicon" src="https://www.google.com/s2/favicons?domain=${new URL(dial.url).hostname}&sz=32" alt="favicon">
+                    <div class="title">${dial.title}</div>
+                    <button class="delete-btn">×</button>
+                `;
+
+                element.querySelector('.delete-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.deleteDial(dial.id);
+                });
+
+                element.addEventListener('click', () => {
+                    window.location.href = dial.url;
+                });
+
+                return element;
+            }
+
+            renderDial(dial) {
+                const element = this.createDialElement(dial);
+                this.desktop.appendChild(element);
+            }
+
+            async deleteDial(id) {
+                this.dials = this.dials.filter(dial => dial.id !== id);
+                await this.saveDialsToStorage();
+                this.renderAllDials();
+            }
+
+            renderAllDials() {
+                this.desktop.innerHTML = '';
+                this.dials.forEach(dial => this.renderDial(dial));
+            }
+
+            updateDialPositions() {
+                const dialElements = this.desktop.querySelectorAll('.dial');
+                this.dials = Array.from(dialElements).map((element, index) => {
+                    const dialId = element.dataset.id;
+                    const dial = this.dials.find(d => d.id === dialId);
+                    return { ...dial, position: index };
+                });
+                this.saveDialsToStorage();
+            }
+
+            async loadDials() {
+                try {
+                    const data = await this.getFromStorage('speedDials');
+                    this.dials = data?.dials || [];
+                    this.dials.sort((a, b) => a.position - b.position);
+                    this.renderAllDials();
+                } catch (error) {
+                    console.error('Failed to load dials:', error);
+                }
+            }
+
+            async saveDialsToStorage() {
+                try {
+                    await this.setToStorage('speedDials', { dials: this.dials });
+                } catch (error) {
+                    console.error('Failed to save dials:', error);
+                }
+            }
+
+            getFromStorage(key) {
+                return new Promise((resolve) => {
+                    const data = localStorage.getItem(key);
+                    resolve(data ? JSON.parse(data) : null);
+                });
+            }
+
+            setToStorage(key, value) {
+                return new Promise((resolve) => {
+                    localStorage.setItem(key, JSON.stringify(value));
+                    resolve();
+                });
+            }
+        }
+
+        // アプリケーションの初期化
+        new SpeedDial();
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+body {
+  background-color: #fefefe;
+  font-size: 16px;
+  color: #333;
+}
+button {
+  border: none;
+  border-radius: 16px;
+}
+button:hover {
+  transform: scale(1.15);
+  cursor: pointer;
+  border: 3px solid rgba(0, 0, 255, 0.263);
+}
+select:hover {
+  cursor: pointer;
+  border: 3px solid rgba(0, 0, 255, 0.263);
+}
+input:hover {
+  cursor: pointer;
+  border: 3px solid rgba(0, 0, 255, 0.263);
+}
+input:focus {
+  border: 3px solid rgba(0, 0, 255, 0.263);
+}
+svg:hover {
+  fill: #1814ff;
+}
+details {
+  background-color: #f2f2f2;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%);
+  width: 10vh;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo * {
+  height: 80%;
+}
+/* サイドバー */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  transform: translateX(-100%); /* 初期状態で非表示 */
+}
+.sidebar-button {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4%;
+  height: auto;
+  margin: 2%;
+  min-width: 50px;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+  opacity: 1;
+  background-color: transparent;
+}
+.sidebar-button:hover {
+  border: none;
+}
+.in-sidebar-button {
+  position: relative;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  padding: 0;
+}
+.in-sidebar-button:hover {
+  border: none;
+}
+
+.app-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.app-item {
+  margin-left: 20px;
+  width: 60%;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-decoration: none; /* リンクの下線を消す */
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: #f2f2f2;
+}
+
+.app-item span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.app-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.settings {
+  display: none;
+  cursor: default;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+.settings details{
+  width: 80%;
+  min-width: 80%;
+  padding: 5%;
+}
+.settings details:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/*以上サイドバー*/
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  border-radius: 20px 20px 0 0;
+}
+.speed-dial-place {
+  position: fixed;
+  height: 60%;
+  width: 60%;
+  min-width: 450px;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%,0);
+  box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.15), /* 上 */
+              1px 0 8px rgba(0, 0, 0, 0.15), /* 左 */
+              1px 0 8px rgba(0, 0, 0, 0.15); /* 右 */
+  border-radius: 20px 20px 0 0;
+}
+
+/*.search-place*/
+.search-place {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%,0);
+}

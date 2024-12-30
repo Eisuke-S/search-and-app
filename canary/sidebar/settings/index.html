@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>アコーディオンメニュー</title>
+  <style>
+    details {
+      margin-bottom: 10px;
+      font-family: Arial, sans-serif;
+      border-radius: 10px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+    summary {
+      cursor: pointer;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    details[open] summary {
+      color: #007bff;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .color-picker, .file-picker, .range-picker {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>設定</h2>
+
+  <details>
+    <summary>SVGの色設定</summary>
+    <ul>
+      <li>
+        <label for="svg-color">SVGの色:</label>
+        <input type="color" id="svg-color" class="color-picker">
+      </li>
+      <li>
+        <label for="svg-hover-color">SVGのホバー時の色:</label>
+        <input type="color" id="svg-hover-color" class="color-picker">
+      </li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>背景設定</summary>
+    <ul>
+      <li>
+        <label for="background-color">背景色:</label>
+        <input type="color" id="background-color" class="color-picker">
+      </li>
+      <li>
+        <label for="background-image">背景画像:</label>
+        <input type="file" id="background-image" class="file-picker" accept="image/*">
+      </li>
+      <li>
+        <label for="background-blur">背景のぼかし:</label>
+        <input type="range" id="background-blur" class="range-picker" min="0" max="20">
+      </li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>ダークモード設定</summary>
+    <ul>
+      <li>
+        <label for="dark-mode">ダークモード:</label>
+        <input type="checkbox" id="dark-mode">
+      </li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>メニュー 1</summary>
+    <ul>
+      <li>アイテム 1</li>
+      <li>アイテム 2</li>
+      <li>アイテム 3</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>メニュー 2</summary>
+    <ul>
+      <li>アイテム 1</li>
+      <li>アイテム 2</li>
+      <li>アイテム 3</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>メニュー 3</summary>
+    <ul>
+      <li>アイテム 1</li>
+      <li>アイテム 2</li>
+      <li>アイテム 3</li>
+    </ul>
+  </details>
+
+</body>
+</html>

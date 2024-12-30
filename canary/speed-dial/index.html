@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Dial Desktop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="desktop" id="desktop"></div>
+    
+    <button class="add-button" id="addButton">+</button>
+
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <div class="form-group">
+                <label for="title">タイトル:</label>
+                <input type="text" id="title" required>
+            </div>
+            <div class="form-group">
+                <label for="url">URL:</label>
+                <input type="url" id="url" required>
+            </div>
+            <div class="modal-buttons">
+                <button class="cancel" id="cancelButton">キャンセル</button>
+                <button class="save" id="saveButton">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
