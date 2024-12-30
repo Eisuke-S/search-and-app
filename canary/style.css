@@ -46,19 +46,29 @@ details {
 .logo * {
   height: 80%;
 }
-/* サイドバー */
-.sidebar {
+/*メニューボタン*/
+.search-engine {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 250px;
-  height: 100%;
-  background-color: #fff;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  z-index: 1000;
-  transform: translateX(-100%); /* 初期状態で非表示 */
+  left: 4%;
+  height: 5%;
+  width: auto;
+  margin: 2%;
+  min-height: 50px;
+  outline: none;
+  border: none;
+  font-size: larger;
+  border-radius: 50%;
 }
+.search-engine:hover {
+  scale: 1;
+  border: none;
+  cursor: pointer;
+}
+.search-engine * {
+  height: 100%;
+}
+
 .sidebar-button {
   position: fixed;
   top: 0;
@@ -75,6 +85,20 @@ details {
 .sidebar-button:hover {
   border: none;
 }
+/* サイドバー */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  transform: translateX(-100%); /* 初期状態で非表示 */
+}
+
 .in-sidebar-button {
   position: relative;
   top: 20px;
