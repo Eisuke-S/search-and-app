@@ -2,6 +2,7 @@ body {
   background-color: #fefefe;
   font-size: 16px;
   color: #333;
+  background-size: cover;
 }
 button {
   border: none;
@@ -30,6 +31,7 @@ details {
   background-color: #f2f2f2;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
 .logo {
@@ -42,9 +44,11 @@ details {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 .logo * {
   height: 80%;
+  fill:#1814ff;
 }
 /*メニューボタン*/
 .search-engine {
@@ -59,6 +63,7 @@ details {
   border: none;
   font-size: larger;
   border-radius: 50%;
+  background-color: transparent;
 }
 .search-engine:hover {
   scale: 1;
@@ -92,7 +97,8 @@ details {
   left: 0;
   width: 250px;
   height: 100%;
-  background-color: #fff;
+  background: #ffffffe3;
+  backdrop-filter: blur(10px);
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   z-index: 1000;
@@ -166,6 +172,16 @@ details {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
+.upload-background {
+  width: 100%;
+}
+#clear-strage {
+  background-color: red;
+  color: white;
+  margin-top: 10px;
+  padding: 5px;
+  
+}
 
 /*以上サイドバー*/
 
@@ -196,4 +212,38 @@ iframe {
   top: 25%;
   left: 50%;
   transform: translate(-50%,0);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212; /* ダークな背景色 */
+    color: white; /* 白文字 */
+  }
+  svg {
+    fill: white; /* 白アイコン */
+  }
+  svg:hover {
+    fill: #14fbff; /* 青アイコン */
+  }
+  .logo * {
+    fill: #14fbff; /* ロゴの色反転 */
+  }
+  .sidebar {
+    background: #2f2f2ff1; /* サイドバーの背景色 */
+  }
+  .app-item {
+    background-color: #000000f1; /* アプリの背景色 */
+  }
+  .app-item span {
+    color: white; /* アプリの文字色 */
+  }
+  .settings details {
+    background-color: #000000f1; /* 設定の背景色 */
+  }
+  .search-engine {
+    color: white; /* 検索エンジンの文字色 */
+  }
+  .search-engine:focus {
+    color: black;
+  }
 }

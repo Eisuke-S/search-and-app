@@ -6,9 +6,11 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #f0f0f0;
+    background: #f0f0f0ac;
+    
     min-height: 100vh;
     padding: 20px;
+    backdrop-filter: blur(10px);
 }
 
 .desktop {
@@ -105,7 +107,7 @@ body {
 }
 
 .modal-content {
-    background: white;
+    background: rgba(255, 255, 255, 0.815);
     padding: 20px;
     border-radius: 10px;
     width: 90%;
@@ -153,4 +155,28 @@ body {
 
 .dial.dragging {
     opacity: 0.5;
+}
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #333333ec;
+        color: white;
+    }
+
+    .dial {
+        background: #505050;
+    }
+    .modal-content {
+        background: #000000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+    }
+
+    .form-group input {
+        background: #000000;
+        color: white;
+    }
+    .add-button {
+        background-color: #14fbff;
+        color: black;
+    }
+
 }

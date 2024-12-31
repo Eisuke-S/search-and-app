@@ -179,3 +179,5 @@ class SpeedDial {
 
 // アプリケーションの初期化
 new SpeedDial();
+
+

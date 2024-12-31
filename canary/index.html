@@ -13,7 +13,7 @@
   <div>
     <div class="logo">
       <svg width="300" height="300" viewBox="-150 -150 300 300" xmlns="http://www.w3.org/2000/svg">
-        <path d="M142 -47 L1,0 L88 121 L-89 121 L-143 -47 L-1 -150 z" style="fill:#1814ff;"></path>
+        <path d="M142 -47 L1,0 L88 121 L-89 121 L-143 -47 L-1 -150 z"></path>
       </svg>
     </div>
     <div class="sidebar" id="sidebar">
@@ -41,20 +41,30 @@
       <div class="settings" id="settings">
         <div class="container">
           <h2>設定</h2>
-
           <details>
-            <summary>SVGの色設定</summary>
+            <summary>テーマ</summary>
             <ul>
               <li>
-                <label >SVGの色:</label>
-                <input type="color">
-              </li>
-              <li>
-                <label >SVGのホバー時の色:</label>
-                <input type="color">
+                <label >カラー</label>
+                <input type="color" id="theme-color">
               </li>
             </ul>
           </details>
+          <details>
+            <summary>背景</summary>
+            <ul>
+              <li>
+                <label >ファイルをアップロード</label>
+                <br>
+                <input class="upload-background" type="file" id="upload-background">
+              </li>
+              <li>
+                <label >画像リンク</label>
+                <input type="url" id="upload-background-url">
+              </li>
+            </ul>
+          </details>
+          <button id="clear-strage">すべてクリア</button>
         </div>
       </div>
     </div>
@@ -66,21 +76,35 @@
         <option value="https://www.google.com/search?q=">Google</option>
         <option value="https://www.bing.com/search?q=">Bing</option>
         <option value="https://search.yahoo.co.jp/search?p=">yahoo!</option>
+        <!--以下画像-->
+        <!--以下ai-->
         <option value="https://chatgpt.com/search?q=">Chatgpt-Search</option>
         <option value="https://chatgpt.com/?q=">Chatgpt</option>
         <option value="https://copilot.microsoft.com/?q=">Copilot</option>
         <option value="https://www.perplexity.ai/search/new?q=">perplexity</option>
         <option value="https://www.genspark.ai/search?query=">genspark</option>
         <option value="https://felo.ai/search/?q=">felo</option>
+        <option value="https://claude.ai/new?q=">claude</option>
+        <!--マイナー検索エンジン-->
+        <option value="https://search.yahoo.com/search;_ylt=Awr4.8x9TXNnS4IaGaFDDWVH;_ylc=X1MDMTE5NzgwNDg2NwRfcgMyBGZyAwRmcjIDcDpzLHY6c2ZwLG06c2ItdG9wBGdwcmlkA1JoV1p2Umc1UWNLWHRHZjh4R0ouMUEEbl9yc2x0AzAEbl9zdWdnAzEwBG9yaWdpbgNzZWFyY2gueWFob28uY29tBHBvcwMwBHBxc3RyAwRwcXN0cmwDMARxc3RybAM1BHF1ZXJ5AyVFMyU4MSU5MyVFMyU4MiU5MyVFMyU4MSVBQiVFMyU4MSVBMSVFMyU4MSVBRgR0X3N0bXADMTczNTYwOTczNA--?p=">米Yahoo</option>
         <option value="https://www.startpage.com/search?q=">Startpage</option> 
         <option value="https://you.com/search?q=">You.com</option>
         <option value="https://www.ecosia.org/search?method=index&q=">Ecosia</option>
         <option value="https://search.brave.com/search?q=">Brave</option>
         <option value="https://duckduckgo.com/?t=h_&q=">Dackdackgo</option>
         <option value="https://websearch.excite.co.jp/?q">Excite</option>
+        <option value="https://kagi.com/search?q=">Kagi</option>
+        <option value="https://qmamu.com/ja/search?q=">qmamu</option>
+        <option value="https://search.aol.com/aol/search?q=">Aol.</option>
+        <option value="https://search3.lycos.com/web/?q=">lycos</option>
+        <option value="http://pasokatu.com/nsearch#gsc.tab=0&gsc.q=">ノイズレス</option>
+        <option value="https://www.metacrawler.com/serp?q=">metacrawler</option>
+        <option value="https://www.webcrawler.com/serp?q=">webcrawler</option>
+        <!--以下音楽-->
         <option value="https://music.youtube.com/search?q=">YouTube Music</option>
         <option value="https://open.spotify.com/search/">Spotify</option>
         <option value="https://music.apple.com/jp/search?term=">Apple Music</option>
+        <!--以下動画-->
         <option value="https://www.youtube.com/results?search_query=">YouTube</option> 
         <option value="https://abema.tv/search?q=">Abema</option> 
         <option value="https://tver.jp/search/">Tver</option> 
@@ -108,11 +132,11 @@
   </div>
   
   <div class="speed-dial-place">
-    <iframe src="speed-dial/index.html"></iframe>
+    <iframe src="speed-dial/index.html" id="speed-dial"></iframe>
   </div>
   <script src="search-bar/script.js"></script>
   <script src="sidebar/script.js"></script>
-  <script src="sidebar/settings/script.js" defer></script>
+  <script src="sidebar/settings/script.js"></script>
   
 </body>
 </html>
