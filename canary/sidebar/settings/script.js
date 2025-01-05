@@ -1,46 +1,28 @@
 const themeColorPicker = document.getElementById('theme-color'); // テーマカラーのinput要素を取得
-
-// 色が変更されるたびにローカルストレージに保存
-themeColorPicker.addEventListener('input', function() {
+themeColorPicker.addEventListener('input', () => {
     const themeColor = themeColorPicker.value; // ユーザーが選んだ色を取得
     localStorage.setItem('themeColor', themeColor); // ローカルストレージに保存
-    changethemeColor(); // SVG
-    
+    document.documentElement.style.setProperty('--light-main-color', themeColor); // CSS変数を変更
+});
+const darkThemeColorPicker = document.getElementById('dark-theme-color'); // テーマカラーのinput要素を取得
+darkThemeColorPicker.addEventListener('input', () => {
+    const darkthemeColor = darkThemeColorPicker.value; // ユーザーが選んだ色を取得
+    localStorage.setItem('darkthemeColor', darkthemeColor); // ローカルストレージに保存
+    document.documentElement.style.setProperty('--dark-main-color', darkthemeColor); // CSS変数を変更
+});
+const lightSvgColorPicker = document.getElementById('light-svg-color'); // テーマカラーのinput要素を取得
+lightSvgColorPicker.addEventListener('input', () => {
+    const lightsvgColor = lightSvgColorPicker.value; // ユーザーが選んだ色を取得
+    localStorage.setItem('lightSvgColor', lightsvgColor); // ローカルストレージに保存
+    document.documentElement.style.setProperty('--light-svg-color', lightsvgColor); // CSS変数を変更
 });
 
-function changethemeColor() {
-    // .logo クラス内のすべての要素を取得
-    const logoElements = document.querySelectorAll('.logo *'); 
-    logoElements.forEach(element => {
-      element.style.fill = themeColorPicker.value;
-    });
-    changeSvgHoverColor();
-    
-}
-// 色を変更する関数
-function changeSvgHoverColor() {
-    // ページ内のすべてのSVG要素を取得
-    const svgs = document.querySelectorAll('svg');
-
-    // ローカルストレージからテーマカラーを取得
-    const themeColor = localStorage.getItem('themeColor');
-
-    // テーマカラーが存在する場合に色を変更
-    if (themeColor) {
-        // 各SVG要素に対してhover時の色を変更
-        svgs.forEach(svg => {
-            const style = document.createElement('style');
-            style.innerHTML = `
-                svg:hover {
-                    fill: ${themeColor} !important; /* ローカルストレージから取得した色を適用 */
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    }
-}
-
-
+const darkSvgColorPicker = document.getElementById('dark-svg-color'); // テーマカラーのinput要素を取得
+darkSvgColorPicker.addEventListener('input', () => {
+    const darksvgColor = darkSvgColorPicker.value; // ユーザーが選んだ色を取得
+    localStorage.setItem('darkSvgColor', darksvgColor); // ローカルストレージに保存
+    document.documentElement.style.setProperty('--dark-svg-color', darksvgColor); // CSS変数を変更
+});
 
 const backgroundFileInput = document.getElementById("upload-background");
 backgroundFileInput.addEventListener("change", function(event) {
@@ -76,7 +58,22 @@ window.addEventListener('load', function() {
     const themeColor = localStorage.getItem('themeColor');
     if (themeColor) {
         themeColorPicker.value = themeColor; // 保存されている色を適用
-        changethemeColor();
+        document.documentElement.style.setProperty('--light-main-color', themeColor); // CSS変数を変更
+    }
+    const darkthemeColor = localStorage.getItem('darkthemeColor');
+    if (darkthemeColor) {
+        darkThemeColorPicker.value = darkthemeColor; // 保存されている色を適用
+        document.documentElement.style.setProperty('--dark-main-color', darkthemeColor); 
+    }
+    const lightsvgColor = localStorage.getItem('lightSvgColor');
+    if (lightsvgColor) {
+        lightSvgColorPicker.value = lightsvgColor; // 保存されている色を適用
+        document.documentElement.style.setProperty('--light-svg-color', lightsvgColor); 
+    }
+    const darksvgColor = localStorage.getItem('darkSvgColor');
+    if (darksvgColor) {
+        darkSvgColorPicker.value = darksvgColor; // 保存されている色を適用
+        document.documentElement.style.setProperty('--dark-svg-color', darksvgColor); 
     }
     const savedBackground = localStorage.getItem("backgroundImage");
     if (savedBackground) {
@@ -93,5 +90,5 @@ resetButton.addEventListener('click', function() {
             localStorage.removeItem(key);
         }
     }
-    location.reload();
+    location.reload(true);
 });
