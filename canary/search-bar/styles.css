@@ -63,3 +63,17 @@
 
 }
 
+@media (max-width: 700px) {
+    /* ここに600px以下の画面サイズで適用するスタイルを記述 */
+    .input-field {
+        min-width: 70vw;
+        max-width: 80vw;
+    }
+    #translate-button {
+        display: none;
+    }
+    #video-button {
+        display: none;
+    }
+}
+  
