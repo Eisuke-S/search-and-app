@@ -26,6 +26,7 @@
     outline: none;
     background-color: #f0f0f0cf;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     font-size: auto;
     padding: 11px;
     border-radius: 3px;
