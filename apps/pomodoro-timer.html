@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --work-bg: #f0f4f8;
+            --break-bg: #e0f4e0;
+            --settings-width: 20vw;
+            --primary-color: #2c5282;
+            --secondary-color: #48bb78;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            height: 100vh;
+            transition: background-color 0.5s;
+            overflow: hidden;
+        }
+
+        .container {
+            height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 1rem;
+        }
+
+        .timer-container {
+            position: relative;
+            width: min(90vw, 300px);
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+        }
+
+        .timer-display {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            z-index: 1;
+            color: #1a202c;
+        }
+
+        .progress-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .session-counter {
+            position: absolute;
+            top: 2rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 1rem;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            font-weight: 500;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .settings-button {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            display: grid;
+            place-items: center;
+            background: white;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            z-index: 100;
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: var(--settings-width);
+            min-width: 250px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px var(--shadow-color);
+            padding: 2rem;
+            transition: right 0.3s ease;
+            z-index: 99;
+        }
+
+        .settings-panel.open {
+            right: 0;
+        }
+
+        .close-settings {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            color: #4a5568;
+            width: 2rem;
+            height: 2rem;
+            display: grid;
+            place-items: center;
+            padding: 0;
+        }
+
+        .settings-content {
+            margin-top: 2rem;
+        }
+
+        .color-picker {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .color-picker label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .color-picker input {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .settings-panel {
+                --settings-width: 100vw;
+            }
+
+            .controls {
+                flex-direction: column;
+                width: min(100%, 300px);
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="session-counter">セッション: <span id="sessionCount">0</span></div>
+        <div class="timer-container">
+            <div class="timer-display">25:00</div>
+            <svg class="progress-ring" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" stroke="#e2e8f0" stroke-width="5" fill="none"/>
+                <circle class="progress" cx="50" cy="50" r="45" stroke="currentColor" stroke-width="5" fill="none"/>
+            </svg>
+        </div>
+        <div class="controls">
+            <button id="startBtn">開始</button>
+            <button id="pauseBtn" style="display: none;">一時停止</button>
+            <button id="resetBtn">リセット</button>
+        </div>
+    </div>
+
+    <button class="settings-button" id="settingsBtn">⚙️</button>
+
+    <div class="settings-panel" id="settingsPanel">
+        <button class="close-settings" id="closeSettings">×</button>
+        <div class="settings-content">
+            <div class="color-picker">
+                <label>
+                    作業時の背景色
+                    <input type="color" id="workColor" value="#f0f4f8">
+                </label>
+                <label>
+                    休憩時の背景色
+                    <input type="color" id="breakColor" value="#e0f4e0">
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WORK_TIME = 25 * 60;
+        const BREAK_TIME = 5 * 60;
+        const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 45;
+
+        class PomodoroTimer {
+            constructor() {
+                this.timeLeft = WORK_TIME;
+                this.isWork = true;
+                this.isRunning = false;
+                this.sessionCount = 0;
+                this.timer = null;
+
+                this.initializeElements();
+                this.loadSettings();
+                this.setupEventListeners();
+                this.updateDisplay();
+                this.updateBackground();
+            }
+
+            initializeElements() {
+                this.elements = {
+                    startBtn: document.getElementById('startBtn'),
+                    pauseBtn: document.getElementById('pauseBtn'),
+                    resetBtn: document.getElementById('resetBtn'),
+                    settingsBtn: document.getElementById('settingsBtn'),
+                    closeSettings: document.getElementById('closeSettings'),
+                    settingsPanel: document.getElementById('settingsPanel'),
+                    timerDisplay: document.querySelector('.timer-display'),
+                    progressCircle: document.querySelector('.progress'),
+                    sessionCount: document.getElementById('sessionCount'),
+                    workColor: document.getElementById('workColor'),
+                    breakColor: document.getElementById('breakColor')
+                };
+            }
+
+            loadSettings() {
+                const settings = JSON.parse(localStorage.getItem('pomodoroSettings')) || {
+                    workColor: '#f0f4f8',
+                    breakColor: '#e0f4e0'
+                };
+
+                this.elements.workColor.value = settings.workColor;
+                this.elements.breakColor.value = settings.breakColor;
+                this.updateCSSVariables(settings);
+            }
+
+            saveSettings() {
+                const settings = {
+                    workColor: this.elements.workColor.value,
+                    breakColor: this.elements.breakColor.value
+                };
+                localStorage.setItem('pomodoroSettings', JSON.stringify(settings));
+            }
+
+            updateCSSVariables(settings) {
+                document.documentElement.style.setProperty('--work-bg', settings.workColor);
+                document.documentElement.style.setProperty('--break-bg', settings.breakColor);
+            }
+
+            setupEventListeners() {
+                this.elements.startBtn.addEventListener('click', () => this.start());
+                this.elements.pauseBtn.addEventListener('click', () => this.pause());
+                this.elements.resetBtn.addEventListener('click', () => this.reset());
+                this.elements.settingsBtn.addEventListener('click', () => this.openSettings());
+                this.elements.closeSettings.addEventListener('click', () => this.closeSettings());
+                this.elements.workColor.addEventListener('input', (e) => this.handleColorChange(e, true));
+                this.elements.breakColor.addEventListener('input', (e) => this.handleColorChange(e, false));
+
+                document.addEventListener('click', (e) => {
+                    if (!this.elements.settingsPanel.contains(e.target) && 
+                        !this.elements.settingsBtn.contains(e.target)) {
+                        this.closeSettings();
+                    }
+                });
+            }
+
+            updateDisplay() {
+                const minutes = Math.floor(this.timeLeft / 60);
+                const seconds = this.timeLeft % 60;
+                this.elements.timerDisplay.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                this.updateProgress();
+            }
+
+            updateProgress() {
+                const totalTime = this.isWork ? WORK_TIME : BREAK_TIME;
+                const progress = this.timeLeft / totalTime;
+                const offset = CIRCLE_CIRCUMFERENCE * (1 - progress);
+                this.elements.progressCircle.style.strokeDasharray = `${CIRCLE_CIRCUMFERENCE} ${CIRCLE_CIRCUMFERENCE}`;
+                this.elements.progressCircle.style.strokeDashoffset = offset;
+            }
+
+            updateBackground() {
+                document.body.style.backgroundColor = this.isWork ? 
+                    this.elements.workColor.value : this.elements.breakColor.value;
+                this.elements.progressCircle.style.color = this.isWork ? 
+                    'var(--primary-color)' : 'var(--secondary-color)';
+            }
+
+            start() {
+                if (!this.isRunning) {
+                    this.isRunning = true;
+                    this.timer = setInterval(() => this.tick(), 1000);
+                    this.elements.startBtn.style.display = 'none';
+                    this.elements.pauseBtn.style.display = 'inline-block';
+                }
+            }
+
+            pause() {
+                if (this.isRunning) {
+                    clearInterval(this.timer);
+                    this.isRunning = false;
+                    this.elements.startBtn.style.display = 'inline-block';
+                    this.elements.pauseBtn.style.display = 'none';
+                }
+            }
+
+            reset() {
+                clearInterval(this.timer);
+                this.isRunning = false;
+                this.isWork = true;
+                this.timeLeft = WORK_TIME;
+                this.sessionCount = 0;
+                this.elements.startBtn.style.display = 'inline-block';
+                this.elements.pauseBtn.style.display = 'none';
+                this.elements.sessionCount.textContent = this.sessionCount;
+                this.updateDisplay();
+                this.updateBackground();
+            }
+
+            tick() {
+                this.timeLeft--;
+                if (this.timeLeft <= 0) {
+                    if (this.isWork) {
+                        this.sessionCount++;
+                        this.elements.sessionCount.textContent = this.sessionCount;
+                        this.timeLeft = BREAK_TIME;
+                    } else {
+                        this.timeLeft = WORK_TIME;
+                    }
+                    this.isWork = !this.isWork;
+                    this.updateBackground();
+                }
+                this.updateDisplay();
+            }
+
+            openSettings() {
+                this.elements.settingsPanel.classList.add('open');
+            }
+
+            closeSettings() {
+                this.elements.settingsPanel.classList.remove('open');
+                this.saveSettings();
+            }
+
+            handleColorChange(e, isWork) {
+                const settings = {
+                    workColor: this.elements.workColor.value,
+                    breakColor: this.elements.breakColor.value
+                };
+                this.updateCSSVariables(settings);
+                if (isWork === this.isWork) {
+                    this.updateBackground();
+                }
+            }
+        }
+
+        // Initialize the timer
+        const timer = new PomodoroTimer();
+    </script>
+</body>
+</html>
