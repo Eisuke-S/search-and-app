@@ -1,15 +1,15 @@
 :root {
   --border: rgba(0, 0, 255, 0.263);
-  --dark-background : #002d2e;
+  --dark-background : #515151;
   --dark-main-color : #14fbff;
   --dark-color: #ffffff;
-  --dark-iteam-color: #414141;
+  --dark-item-color: #414141;
   --dark-svg-color: #ffffff;
   --light-background : #ffffff;
   --light-main-color: #1814ff;;/*1814ff;*/
-  --light-color: #333;
-  --light-iteam-color: #f5f5f5;
-  --light-svg-color: #656565;
+  --light-color: #000000;
+  --light-item-color: #f5f5f5;
+  --light-svg-color: #646464;
 
 }
 body {
@@ -48,7 +48,7 @@ svg:hover {
   fill: var(--light-main-color);
 }
 details {
-  background-color: var(--light-iteam-color);
+  background-color: var(--light-item-color);
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
@@ -169,7 +169,7 @@ details {
   padding: 20px;
   text-decoration: none; /* リンクの下線を消す */
   transition: transform 0.2s, box-shadow 0.2s;
-  background-color: var(--light-iteam-color);
+  background-color: var(--light-item-color);
 }
 
 .app-item span {
@@ -216,6 +216,10 @@ details {
   margin-top: 10px;
   padding: 5px;
   
+}
+#clear-strage:hover {
+  border: none;
+  cursor: pointer;
 }
 
 /*以上サイドバー*/
@@ -267,13 +271,13 @@ iframe {
     background: var(--dark-background); /* サイドバーの背景色 */
   }
   .app-item {
-    background-color: var(--dark-iteam-color); /* アプリの背景色 */
+    background-color: var(--dark-item-color); /* アプリの背景色 */
   }
   .app-item span {
     color: var(--dark-color); /* アプリの文字色 */
   }
   .settings details {
-    background-color: var(--dark-iteam-color); /* 設定の背景色 */
+    background-color: var(--dark-item-color); /* 設定の背景色 */
   }
   .search-engine {
     color: var(--dark-svg-color); /* 検索エンジンの色 */
