@@ -20,6 +20,10 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+  top: 0;
+  left: 0;
+  position: fixed;
+  margin: 0;
 }
 button {
   border: none;
@@ -52,6 +56,24 @@ details {
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
+}
+/* スクロールバー全体の幅や高さを設定 */
+::-webkit-scrollbar {
+  width: 8px; /* 縦スクロールバーの幅 */
+  height: 8px; /* 横スクロールバーの高さ */
+}
+
+/* スクロールバーの背景 */
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px
+}
+
+/* スクロールバーのつまみ */
+::-webkit-scrollbar-thumb {
+  background: var(--light-item-color);
+  border-radius: 4px;
+  border: none;
 }
 
 .logo {
@@ -120,6 +142,7 @@ details {
 }
 /* サイドバー */
 .sidebar {
+  overflow: auto;
   position: fixed;
   top: 0;
   left: 0;
@@ -281,6 +304,10 @@ iframe {
   }
   .search-engine {
     color: var(--dark-svg-color); /* 検索エンジンの色 */
+  }
+  /* スクロールバーのつまみ */
+  ::-webkit-scrollbar-thumb {
+    background: var(--dark-item-color);
   }
 
 }

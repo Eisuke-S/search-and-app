@@ -155,11 +155,11 @@ radioButtons.forEach(radio => {
         localStorage.getItem('darkSvgColor', darkSvgColor);
         localStorage.getItem('darkItemColor', darkItemColor);
 
-        root.style.setProperty('--dark-background', lightBackground);
-        root.style.setProperty('--dark-main-color', lightMainColor);
-        root.style.setProperty('--dark-color', lightColor);
-        root.style.setProperty('--dark-svg-color', lightSvgColor);
-        root.style.setProperty('--dark-item-color', lightItemColor);
+        root.style.setProperty('--dark-background', darkBackground);
+        root.style.setProperty('--dark-main-color', darkMainColor);
+        root.style.setProperty('--dark-color', darkColor);
+        root.style.setProperty('--dark-svg-color', darkSvgColor);
+        root.style.setProperty('--dark-item-color', darkItemColor);
         root.style.setProperty('--light-background', darkBackground);
         root.style.setProperty('--light-main-color', darkMainColor);
         root.style.setProperty('--light-color', darkColor);
@@ -219,18 +219,17 @@ if (theme) {
     if (theme === 'dark') {
         // "ダーク"テーマを選択
         document.querySelector('input[type="radio"][name="theme"][value="dark"]').checked = true;
-
         localStorage.getItem('darkBackground', darkBackground);
         localStorage.getItem('darkMainColor', darkMainColor);
         localStorage.getItem('darkColor', darkColor);
         localStorage.getItem('darkSvgColor', darkSvgColor);
         localStorage.getItem('darkItemColor', darkItemColor);
 
-        root.style.setProperty('--dark-background', lightBackground);
-        root.style.setProperty('--dark-main-color', lightMainColor);
-        root.style.setProperty('--dark-color', lightColor);
-        root.style.setProperty('--dark-svg-color', lightSvgColor);
-        root.style.setProperty('--dark-item-color', lightItemColor);
+        root.style.setProperty('--dark-background', darkBackground);
+        root.style.setProperty('--dark-main-color', darkMainColor);
+        root.style.setProperty('--dark-color', darkColor);
+        root.style.setProperty('--dark-svg-color', darkSvgColor);
+        root.style.setProperty('--dark-item-color', darkItemColor);
         root.style.setProperty('--light-background', darkBackground);
         root.style.setProperty('--light-main-color', darkMainColor);
         root.style.setProperty('--light-color', darkColor);
