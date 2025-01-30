@@ -24,6 +24,7 @@ body {
   left: 0;
   position: fixed;
   margin: 0;
+  overflow: hidden;
 }
 button {
   border: none;
